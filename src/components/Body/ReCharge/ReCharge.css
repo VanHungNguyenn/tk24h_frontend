@@ -1,0 +1,38 @@
+.recharge__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.recharge__container img {
+    width: 200px;
+}
+
+.recharge__container .title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    margin-top: 1rem;
+    letter-spacing: 0.04rem;
+    font-weight: bold;
+}
+
+.recharge__container .title .info {
+    color: #E04F1A;
+}
+
+.recharge__note {
+    padding: 2rem;
+    background-color: #d8e9f9;
+    border: #c8e0f6;
+}
+
+.recharge__note .note {
+    color: #1f4b74;
+    font-weight: 600;
+    font-size: 1rem;
+}

@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Loading from './components/utils/Loading'
+import NotFound from './components/utils/NotFound'
+import Header from './components/Header'
+import Footer from './components/Footer'
+
+import './vendor/fontawesome-free/css/all.min.css'
+import './css/fonts-googleapis.css'
+
+import 'reactjs-toastr/lib/toast.css'
+
+// Lazy load - Code splitting
+const Body = React.lazy(() => import('./components/Body'))
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div className='app__main'>
+			<Suspense fallback={<Loading />}>
+				<BrowserRouter>
+					<div
+						id='page-container'
+						className='page-header-dark main-content-boxed side-trans-enabled'
+					>
+						<Header />
+						<Switch>
+							<Route exact path='' component={Body} />
+							<Route component={NotFound} />
+						</Switch>
+						<Footer />
+					</div>
+				</BrowserRouter>
+			</Suspense>
+		</div>
+	)
 }
 
-export default App;
+export default App
