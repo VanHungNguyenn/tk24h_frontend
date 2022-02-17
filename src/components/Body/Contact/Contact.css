@@ -1,0 +1,16 @@
+.contact__container {
+    margin: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    cursor: pointer;
+    background-color: rgb(232, 238, 241);
+}
+
+.contact__img {
+    width: auto;
+    height: 100px;
+}
