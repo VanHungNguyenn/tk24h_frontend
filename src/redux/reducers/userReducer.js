@@ -19,8 +19,7 @@ const userReducer = (state = initialState, action) => {
 			return {
 				...state,
 				user: action.payload.user,
-				token: action.payload.token,
-				isAdmin: action.payload.isAdmin,
+				isAdmin: action.payload.user.role === 1,
 			}
 		default:
 			return state

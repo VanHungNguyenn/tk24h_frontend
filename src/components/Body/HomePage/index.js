@@ -12,10 +12,11 @@ import ListHistoryRecharge from './ListHistoryRecharge'
 import LoginOrRegister from './LoginOrRegister'
 
 const HomePage = () => {
+	const isLogin = !!localStorage.getItem('token')
+
 	return (
 		<>
-			{/* Form login / register */}
-			<LoginOrRegister />
+			{isLogin ? null : <LoginOrRegister />}
 			{/* Quang cao */}
 			<div className='homepage__title'>
 				<h2 style={{ textAlign: 'center' }}>DANH SÁCH TÀI KHOẢN</h2>

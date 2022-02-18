@@ -9,7 +9,7 @@ import HistoryDeposit from './HistoryDeposit'
 import Contact from './Contact'
 import InfoUser from './InfoUser'
 
-const tabUser = (
+const tabUser = (isLogin) => (
 	<>
 		<li className='nav-item'>
 			<NavLink
@@ -21,89 +21,113 @@ const tabUser = (
 				<span className='d-none d-md-inline ml-1'>Trang chủ</span>
 			</NavLink>
 		</li>
-		<li className='nav-item'>
-			<NavLink to='/recharge' className='nav-link text-body-color py-4'>
-				<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
-				<span className='d-none d-md-inline ml-1'>Nạp tiền</span>
-			</NavLink>
-		</li>
-		<li className='nav-item'>
-			<NavLink
-				to='/tutorial'
-				id='api'
-				className='nav-link text-body-color py-4'
-			>
-				<i className='nav-main-link-icon fas fa-tape text-gray pr-1'></i>
-				<span className='d-none d-md-inline ml-1'>API</span>
-			</NavLink>
-		</li>
-		<li className='nav-item'>
-			<NavLink
-				to='/historybuy'
-				id='lichsumua'
-				className='nav-link text-body-color py-4'
-			>
-				<i className='nav-main-link-icon si si-book-open text-gray pr-1'></i>
-				<span className='d-none d-md-inline ml-1'>Lịch sử mua</span>
-			</NavLink>
-		</li>
-		<li className='nav-item'>
-			<NavLink
-				to='/historydeposit'
-				className='nav-link text-body-color py-4'
-			>
-				<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
-				<span className='d-none d-md-inline ml-1'>
-					Lịch sử nạp tiền
-				</span>
-			</NavLink>
-		</li>
+		{isLogin && (
+			<>
+				<li className='nav-item'>
+					<NavLink
+						to='/recharge'
+						className='nav-link text-body-color py-4'
+					>
+						<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
+						<span className='d-none d-md-inline ml-1'>
+							Nạp tiền
+						</span>
+					</NavLink>
+				</li>
+				<li className='nav-item'>
+					<NavLink
+						to='/tutorial'
+						id='api'
+						className='nav-link text-body-color py-4'
+					>
+						<i className='nav-main-link-icon fas fa-tape text-gray pr-1'></i>
+						<span className='d-none d-md-inline ml-1'>API</span>
+					</NavLink>
+				</li>
+				<li className='nav-item'>
+					<NavLink
+						to='/historybuy'
+						id='lichsumua'
+						className='nav-link text-body-color py-4'
+					>
+						<i className='nav-main-link-icon si si-book-open text-gray pr-1'></i>
+						<span className='d-none d-md-inline ml-1'>
+							Lịch sử mua
+						</span>
+					</NavLink>
+				</li>
+				<li className='nav-item'>
+					<NavLink
+						to='/historydeposit'
+						className='nav-link text-body-color py-4'
+					>
+						<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
+						<span className='d-none d-md-inline ml-1'>
+							Lịch sử nạp tiền
+						</span>
+					</NavLink>
+				</li>
+			</>
+		)}
+
 		<li className='nav-item'>
 			<NavLink to='/contact' className='nav-link text-body-color py-4'>
 				<i className='nav-main-link-icon si si-book-open text-gray pr-1'></i>
 				<span className='d-none d-md-inline ml-1'>Liên hệ</span>
 			</NavLink>
 		</li>
-		<li className='nav-item'>
-			<NavLink to='/info_user' className='nav-link text-body-color py-4'>
-				<i className='nav-main-link-icon si si-user text-gray pr-1'></i>
-				<span className='d-none d-md-inline ml-1'>Tài khoản</span>
-			</NavLink>
-		</li>
+		{isLogin && (
+			<>
+				<li className='nav-item'>
+					<NavLink
+						to='/info_user'
+						className='nav-link text-body-color py-4'
+					>
+						<i className='nav-main-link-icon si si-user text-gray pr-1'></i>
+						<span className='d-none d-md-inline ml-1'>
+							Tài khoản
+						</span>
+					</NavLink>
+				</li>
 
-		<li className='nav-item'>
-			<div className='nav-link text-body-color py-4'>
-				<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
-				<span className='d-none d-md-inline ml-1'>
-					Số dư: 1.200.000 VNĐ
-				</span>
-			</div>
-		</li>
+				<li className='nav-item'>
+					<div className='nav-link text-body-color py-4'>
+						<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
+						<span className='d-none d-md-inline ml-1'>
+							Số dư: 1.200.000 VNĐ
+						</span>
+					</div>
+				</li>
+			</>
+		)}
 	</>
 )
 
 const Body = (props) => {
+	const isLogin = !!localStorage.getItem('token')
+
 	return (
 		<>
 			<main id='main-container'>
 				<div className='bg-white border-bottom'>
 					<div className='content py-0'>
 						<ul className='nav nav-tabs nav-tabs-alt border-bottom-0 justify-content-center justify-content-md-start'>
-							{tabUser}
+							{tabUser(isLogin)}
 						</ul>
 					</div>
 				</div>
 				<div className='content'>
 					<Switch>
 						<Route exact path='/' component={HomePage} />
+						<Route path='/contact' component={Contact} />
 						<Route exact path='/recharge' component={ReCharge} />
+
 						<Route path='/tutorial' component={Tutorial} />
 						<Route path='/historybuy' component={HistoryBuy} />
 						<Route
 							path='/historydeposit'
 							component={HistoryDeposit}
 						/>
-						<Route path='/contact' component={Contact} />
 						<Route path='/info_user' component={InfoUser} />
 						<Route component={NotFound} />
 					</Switch>
