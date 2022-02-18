@@ -8,8 +8,6 @@ import Footer from './components/Footer'
 import './vendor/fontawesome-free/css/all.min.css'
 import './css/fonts-googleapis.css'
 
-import 'reactjs-toastr/lib/toast.css'
-
 // Lazy load - Code splitting
 const Body = React.lazy(() => import('./components/Body'))
 
@@ -21,6 +19,7 @@ function App() {
 					<div
 						id='page-container'
 						className='page-header-dark main-content-boxed side-trans-enabled'
+						style={{ position: 'relative' }}
 					>
 						<Header />
 						<Switch>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ShoppingCartOutlined } from '@ant-design/icons'
 
-const Facebook = () => {
+const Outlook = () => {
 	return (
 		<>
 			<div className='table-responsive'>
@@ -37,7 +37,7 @@ const Facebook = () => {
 					<tbody>
 						<tr>
 							<td>
-								<span>4</span>
+								<span>2</span>
 							</td>
 
 							<td>
@@ -50,13 +50,13 @@ const Facebook = () => {
 										fontWeight: 400,
 									}}
 								>
-									Facebook - Lorem ipsum dolor sit amet.
+									Outlook - Lorem ipsum dolor sit amet.
 								</h4>
 							</td>
 
 							<td>Flag</td>
-							<td className='text-danger'>1000</td>
-							<td style={{ color: 'blue' }}>15.000 VND</td>
+							<td className='text-danger'>1850</td>
+							<td style={{ color: 'blue' }}>17.000 VND</td>
 							<td>
 								<input
 									type='number'
@@ -91,4 +91,4 @@ const Facebook = () => {
 	)
 }
 
-export default Facebook
+export default Outlook

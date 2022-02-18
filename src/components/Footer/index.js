@@ -2,7 +2,7 @@ import React from 'react'
 import './Footer.css'
 
 const Footer = () => {
-	const domainSite = window.location.hostname
+	// const domainSite = window.location.hostname
 
 	return <div></div>
 }

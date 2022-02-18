@@ -61,14 +61,17 @@ const Header = () => {
 									alt=''
 								/>
 								<div className='pt-2' />
-								<a className='font-w600 text-blue' href='#'>
+								<a
+									className='font-w600 text-blue fst-italic'
+									href='#'
+								>
 									NguyenVanHung
 								</a>
-								{/* <div className='pt-1' /> */}
-								<div className='font-size-sm text-muted'>
+
+								<div className='font-size-sm text-muted fst-italic'>
 									ID: 1
 								</div>
-								<div className='font-size-sm text-muted'>
+								<div className='font-size-sm text-muted fst-italic'>
 									Phone: 0332305444
 								</div>
 							</div>
@@ -77,14 +80,6 @@ const Header = () => {
 									<Link className='dropdown-item mb-0' to='/'>
 										<i className='fa fa-fw fa-cog text-gray mr-2'></i>
 										Chuyển đến trang Admin
-									</Link>
-								</span>
-							</div>
-							<div className='p-2'>
-								<span className='' onClick={() => {}}>
-									<Link className='dropdown-item mb-0' to='/'>
-										<i className='far fa-fw fa-user text-gray mr-2'></i>
-										Thông tin tài khoản
 									</Link>
 								</span>
 							</div>

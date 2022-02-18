@@ -7,6 +7,7 @@ import Tutorial from './Tutorial'
 import HistoryBuy from './HistoryBuy'
 import HistoryDeposit from './HistoryDeposit'
 import Contact from './Contact'
+import InfoUser from './InfoUser'
 
 const tabUser = (
 	<>
@@ -59,8 +60,14 @@ const tabUser = (
 		</li>
 		<li className='nav-item'>
 			<NavLink to='/contact' className='nav-link text-body-color py-4'>
-				<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
+				<i className='nav-main-link-icon si si-book-open text-gray pr-1'></i>
 				<span className='d-none d-md-inline ml-1'>Liên hệ</span>
+			</NavLink>
+		</li>
+		<li className='nav-item'>
+			<NavLink to='/info_user' className='nav-link text-body-color py-4'>
+				<i className='nav-main-link-icon si si-user text-gray pr-1'></i>
+				<span className='d-none d-md-inline ml-1'>Tài khoản</span>
 			</NavLink>
 		</li>
 
@@ -97,6 +104,7 @@ const Body = (props) => {
 							component={HistoryDeposit}
 						/>
 						<Route path='/contact' component={Contact} />
+						<Route path='/info_user' component={InfoUser} />
 						<Route component={NotFound} />
 					</Switch>
 				</div>

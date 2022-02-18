@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import facebookLogo from '../../../assets/images/fb_logo.png'
 import telegramLogo from '../../../assets/images/tele_logo.png'
 import zaloLogo from '../../../assets/images/zalo_logo.png'
