@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { Table } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+
+import axios from 'axios'
+import { getHistoryRechargeUser } from '../../../redux/actions/historyActions'
+import formatMoney from '../../utils/formatMoney'
 
 const columns = [
 	{
@@ -24,28 +29,41 @@ const columns = [
 	},
 ]
 
-const data = [
-	{
-		id: 1,
-		content: 'Nạp tiền vào tài khoản',
-		amount: '100.000 VND',
-		date: '17/02/2022',
-	},
-	{
-		id: 2,
-		content: 'Nạp tiền vào tài khoản',
-		amount: '120.000 VND',
-		date: '10/02/2022',
-	},
-	{
-		id: 3,
-		content: 'Nạp tiền vào tài khoản',
-		amount: '130.000 VND',
-		date: '18/02/2022',
-	},
-]
-
 const HistoryDeposit = () => {
+	const dispatch = useDispatch()
+
+	const historyRechargesUser = useSelector(
+		(state) => state.history.historyRechargeUser
+	)
+
+	const fetchHistoryRechareUser = useCallback(async () => {
+		try {
+			const res = await axios.get('/history/get_recharge_user', {
+				headers: {
+					'Content-Type': 'application/json',
+					'auth-token': localStorage.getItem('token'),
+				},
+			})
+
+			dispatch(getHistoryRechargeUser(res.data.result))
+		} catch (error) {
+			console.log(error)
+		}
+	}, [dispatch])
+
+	useEffect(() => {
+		fetchHistoryRechareUser()
+	}, [fetchHistoryRechareUser])
+
+	const data = historyRechargesUser.map((item, index) => {
+		return {
+			id: index + 1,
+			content: item.content,
+			amount: formatMoney(item.amount) + ' VND',
+			date: item.date,
+		}
+	})
+
 	return <Table columns={columns} dataSource={data} bordered={true} />
 }
 

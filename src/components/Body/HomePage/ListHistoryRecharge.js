@@ -1,6 +1,37 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
+
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import hideName from '../../utils/hideName'
+import { timeAgo } from '../../utils/timeAgo'
+import formatMoney from '../../utils/formatMoney'
+import { getHistoryRecharge } from '../../../redux/actions/historyActions'
 
 const ListHistoryRecharge = () => {
+	const dispatch = useDispatch()
+
+	const historyRecharges = useSelector(
+		(state) => state.history.historyRecharge
+	)
+
+	const fetchHistoryRecharge = useCallback(async () => {
+		try {
+			const res = await axios.get('/history/get_history_recharge', {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+
+			dispatch(getHistoryRecharge(res.data.result))
+		} catch (error) {
+			console.log(error)
+		}
+	}, [dispatch])
+
+	useEffect(() => {
+		fetchHistoryRecharge()
+	}, [fetchHistoryRecharge])
+
 	return (
 		<>
 			<div className='table-responsive'>
@@ -18,72 +49,35 @@ const ListHistoryRecharge = () => {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th
-								scope='row'
-								style={{
-									textAlign: 'center',
-									verticalAlign: 'middle',
-								}}
-							>
-								nguyenvan****
-							</th>
+						{historyRecharges.map((historyRecharge, i) => (
+							<tr key={i}>
+								<th
+									scope='row'
+									style={{
+										textAlign: 'center',
+										verticalAlign: 'middle',
+									}}
+								>
+									{hideName(historyRecharge.name_user)}
+								</th>
 
-							<td
-								style={{
-									textAlign: 'left',
-									paddingLeft: 20,
-								}}
-							>
-								Nạp 1.000.000 VNĐ vào tài khoản
-							</td>
+								<td
+									style={{
+										textAlign: 'left',
+										paddingLeft: 20,
+									}}
+								>
+									Nạp {formatMoney(historyRecharge.amount)}{' '}
+									VND vào tài khoản
+								</td>
 
-							<td>18/02/2022</td>
-						</tr>
-						<tr>
-							<th
-								scope='row'
-								style={{
-									textAlign: 'center',
-									verticalAlign: 'middle',
-								}}
-							>
-								lebach****
-							</th>
-
-							<td
-								style={{
-									textAlign: 'left',
-									paddingLeft: 20,
-								}}
-							>
-								Nạp 1.000.000 VNĐ vào tài khoản
-							</td>
-
-							<td>18/02/2022</td>
-						</tr>
-						<tr>
-							<th
-								scope='row'
-								style={{
-									textAlign: 'center',
-									verticalAlign: 'middle',
-								}}
-							>
-								luongduct****
-							</th>
-
-							<td
-								style={{
-									textAlign: 'left',
-									paddingLeft: 20,
-								}}
-							>
-								Nạp 1.000.000 VNĐ vào tài khoản
-							</td>
-
-							<td>18/02/2022</td>
-						</tr>
+								<td>
+									{timeAgo.format(
+										Date.parse(historyRecharge.date)
+									)}
+								</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</div>

@@ -1,6 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { showErrorMsg, showSuccessMsg } from '../../utils/Notification'
+import axios from 'axios'
+
+const initialState = {
+	oldPass: '',
+	newPass: '',
+	rePass: '',
+}
 
 const InfoUser = () => {
+	const name = useSelector((state) => state.user.user.name)
+	const phone = useSelector((state) => state.user.user.phone)
+	const id = useSelector((state) => state.user.user._id)
+
+	const [form, setForm] = useState(initialState)
+
+	const handleChangeInput = (e) => {
+		const { name, value } = e.target
+		setForm({ ...form, [name]: value })
+	}
+
+	const handleChangePassword = async ({ oldPass, newPass, rePass }) => {
+		try {
+			const res = await axios.post(
+				'/user/update',
+				{ oldPass, newPass, rePass, id },
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						'auth-token': localStorage.getItem('token'),
+					},
+				}
+			)
+
+			console.log({ res })
+		} catch (error) {
+			console.log(error.message)
+		}
+	}
+
 	return (
 		<div className='block block-rounded block-bordered'>
 			<div className='block-header block-header-default border-bottom'>
@@ -16,7 +55,7 @@ const InfoUser = () => {
 							disabled
 							type='text'
 							className='form-control'
-							value='vanhungnguyen'
+							value={name}
 						/>
 					</div>
 				</div>
@@ -27,8 +66,10 @@ const InfoUser = () => {
 					<div className='col-md-10'>
 						<input
 							name='phone'
-							type='text'
+							disabled
+							type='number'
 							className='form-control'
+							value={phone}
 						/>
 					</div>
 				</div>
@@ -39,13 +80,10 @@ const InfoUser = () => {
 					<div className='col-md-10'>
 						<input
 							autoComplete='new-password'
-							name='old_pass'
+							name='oldPass'
 							type='password'
 							className='form-control'
-							// onChange={(e) => {
-							// 	this.ChangeInfoUser(e)
-							// }}
-							// value={old_pass}
+							onChange={handleChangeInput}
 						/>
 					</div>
 				</div>
@@ -57,13 +95,10 @@ const InfoUser = () => {
 					<div className='col-md-10'>
 						<input
 							autoComplete='new-password'
-							name='new_pass'
+							name='newPass'
 							type='password'
 							className='form-control'
-							onChange={(e) => {
-								this.ChangeInfoUser(e)
-							}}
-							// value={new_pass}
+							onChange={handleChangeInput}
 						/>
 					</div>
 				</div>
@@ -75,13 +110,10 @@ const InfoUser = () => {
 					<div className='col-md-10'>
 						<input
 							autoComplete='new-password'
-							name='re_pass'
+							name='rePass'
 							type='password'
 							className='form-control'
-							onChange={(e) => {
-								this.ChangeInfoUser(e)
-							}}
-							// value={re_pass}
+							onChange={handleChangeInput}
 						/>
 					</div>
 				</div>
@@ -90,7 +122,7 @@ const InfoUser = () => {
 					<div className='col-md-12'>
 						<div className='form-group float-right w-100'>
 							<button
-								onClick={() => {}}
+								onClick={() => handleChangePassword(form)}
 								type='button'
 								className='btn btn-primary btn-rounded btn-block'
 							>

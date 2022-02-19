@@ -1,7 +1,10 @@
 import React from 'react'
 import columnAPI from './columnAPI'
+import { useSelector } from 'react-redux'
 
 function GetAPI(props) {
+	const key = useSelector((state) => state.user.user.key)
+
 	return (
 		<div className='block block-rounded block-bordered'>
 			<div className='block-header block-header-default border-bottom'>
@@ -16,7 +19,7 @@ function GetAPI(props) {
 						placeholder='Secret key'
 						aria-label='SecretKey'
 						disabled
-						defaultValue='$2b$12$JY40XTw1jkcHgpoL0eC'
+						defaultValue={key}
 					/>
 				</div>
 				<div className='api_tutorial'>

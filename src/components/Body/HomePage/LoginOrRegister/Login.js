@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Form, Input, Button } from 'antd'
-import { showErrorMsg, showSuccessMsg } from '../../../utils/Notification'
+import { showErrorMsg } from '../../../utils/Notification'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
@@ -34,13 +34,11 @@ const Login = ({ changeFormLogin }) => {
 
 			setUser({ ...user })
 
-			if (res.status === 200) {
-				showSuccessMsg(res.data.message)
-			}
-
 			localStorage.setItem('token', res.data.token)
 
 			dispatch(login(res.data))
+
+			window.location.reload()
 		} catch (error) {
 			error.response.data.message &&
 				setUser({

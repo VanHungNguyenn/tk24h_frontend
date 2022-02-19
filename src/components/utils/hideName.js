@@ -1,4 +1,4 @@
-export const hideName = (name) => {
+const hideName = (name) => {
 	let newName = ''
 	const nameLength = name.length
 	for (let i = 0; i < nameLength; i++) {
@@ -11,3 +11,5 @@ export const hideName = (name) => {
 
 	return newName
 }
+
+export default hideName

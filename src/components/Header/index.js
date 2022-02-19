@@ -5,11 +5,13 @@ import img_user from '../../assets/avatar12.jpg'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { getUser } from '../../redux/actions/userActions'
+import { Logout } from '../../redux/actions/historyActions'
 
 const Header = () => {
 	const dispatch = useDispatch()
 
 	const user = useSelector((state) => state.user.user)
+	const isAdmin = useSelector((state) => state.user.isAdmin)
 
 	const isLogin = localStorage.getItem('token')
 
@@ -31,6 +33,7 @@ const Header = () => {
 		try {
 			localStorage.removeItem('token')
 			dispatch(getUser())
+			dispatch(Logout())
 
 			window.location.href = '/'
 		} catch (error) {
@@ -116,17 +119,20 @@ const Header = () => {
 										Phone: {user.phone}
 									</div>
 								</div>
-								<div className='p-2'>
-									<span className='' onClick={() => {}}>
-										<Link
-											className='dropdown-item mb-0'
-											to='/'
-										>
-											<i className='fa fa-fw fa-cog text-gray mr-2'></i>
-											Chuyển đến trang Admin
-										</Link>
-									</span>
-								</div>
+								{isAdmin && (
+									<div className='p-2'>
+										<span className='' onClick={() => {}}>
+											<Link
+												className='dropdown-item mb-0'
+												to='/'
+											>
+												<i className='fa fa-fw fa-cog text-gray mr-2'></i>
+												Chuyển đến trang Admin
+											</Link>
+										</span>
+									</div>
+								)}
+
 								<div className='p-2'>
 									<span className='' onClick={handleLogout}>
 										<Link

@@ -1,4 +1,4 @@
-import { LOGIN, GET_USER } from '../actions/types'
+import { LOGIN, GET_USER, GET_TOKEN } from '../actions/types'
 
 const initialState = {
 	user: [],
@@ -20,6 +20,12 @@ const userReducer = (state = initialState, action) => {
 				...state,
 				user: action.payload.user,
 				isAdmin: action.payload.user.role === 1,
+			}
+		case GET_TOKEN:
+			return {
+				...state,
+				token: action.payload,
+				isLogged: true,
 			}
 		default:
 			return state

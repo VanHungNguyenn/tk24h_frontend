@@ -1,5 +1,9 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { Table, Button } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import { getHistoryOrderUser } from '../../../redux/actions/historyActions'
+import formatMoney from '../../utils/formatMoney'
 
 const columns = [
 	{
@@ -47,34 +51,43 @@ const columns = [
 	},
 ]
 
-const data = [
-	{
-		id: 1,
-		category: 'Facebook ABC',
-		number_buy: '100',
-		deposit: '100.000 VND',
-		date: '17/02/2022',
-		data: '',
-	},
-	{
-		id: 2,
-		category: 'Facebook ABC',
-		number_buy: '120',
-		deposit: '120.000 VND',
-		date: '10/02/2022',
-		data: '',
-	},
-	{
-		id: 3,
-		category: 'Facebook ABC',
-		number_buy: '130',
-		deposit: '130.000 VND',
-		date: '18/02/2022',
-		data: '',
-	},
-]
-
 const HistoryBuy = () => {
+	const dispatch = useDispatch()
+
+	const historyOrderUser = useSelector(
+		(state) => state.history.historyOrderUser
+	)
+
+	const fetchHistoryOrderUser = useCallback(async () => {
+		try {
+			const res = await axios.get('/history/get_sale_user', {
+				headers: {
+					'Content-Type': 'application/json',
+					'auth-token': localStorage.getItem('token'),
+				},
+			})
+
+			dispatch(getHistoryOrderUser(res.data.result))
+		} catch (error) {
+			console.log(error)
+		}
+	}, [dispatch])
+
+	useEffect(() => {
+		fetchHistoryOrderUser()
+	}, [fetchHistoryOrderUser])
+
+	const data = historyOrderUser.map((item, i) => {
+		return {
+			id: i + 1,
+			category: item.name_category,
+			number_buy: item.number_buy,
+			deposit: formatMoney(item.price * item.number_buy) + ' VND',
+			date: item.date,
+			data: item.data,
+		}
+	})
+
 	return <Table columns={columns} dataSource={data} bordered={true} />
 }
 

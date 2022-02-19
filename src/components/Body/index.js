@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { Route, Switch, NavLink } from 'react-router-dom'
 import NotFound from '../utils/NotFound'
 import HomePage from './HomePage'
@@ -8,8 +8,11 @@ import HistoryBuy from './HistoryBuy'
 import HistoryDeposit from './HistoryDeposit'
 import Contact from './Contact'
 import InfoUser from './InfoUser'
+import { useDispatch, useSelector } from 'react-redux'
+import { getToken } from '../../redux/actions/userActions'
+import formatMoney from '../utils/formatMoney'
 
-const tabUser = (isLogin) => (
+const tabUser = (isLogin, balance) => (
 	<>
 		<li className='nav-item'>
 			<NavLink
@@ -94,7 +97,7 @@ const tabUser = (isLogin) => (
 					<div className='nav-link text-body-color py-4'>
 						<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
 						<span className='d-none d-md-inline ml-1'>
-							Số dư: 1.200.000 VNĐ
+							Số dư: {formatMoney(balance)} VNĐ
 						</span>
 					</div>
 				</li>
@@ -103,8 +106,24 @@ const tabUser = (isLogin) => (
 	</>
 )
 
-const Body = (props) => {
+const Body = () => {
+	const dispatch = useDispatch()
+	const balance = useSelector((state) => state.user.user.balance)
+
 	const isLogin = !!localStorage.getItem('token')
+
+	const getTokenUser = useCallback(() => {
+		const token = localStorage.getItem('token')
+		if (token) {
+			dispatch(getToken(token))
+		}
+	}, [dispatch])
+
+	useEffect(() => {
+		if (isLogin) {
+			getTokenUser()
+		}
+	}, [isLogin, getTokenUser])
 
 	return (
 		<>
@@ -112,7 +131,7 @@ const Body = (props) => {
 				<div className='bg-white border-bottom'>
 					<div className='content py-0'>
 						<ul className='nav nav-tabs nav-tabs-alt border-bottom-0 justify-content-center justify-content-md-start'>
-							{tabUser(isLogin)}
+							{tabUser(isLogin, balance)}
 						</ul>
 					</div>
 				</div>
