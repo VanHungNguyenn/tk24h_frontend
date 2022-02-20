@@ -1,13 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { ShoppingCartOutlined } from '@ant-design/icons'
 import formatMoney from '../../utils/formatMoney'
+import axios from 'axios'
 
 const Hotmail = () => {
+	const [count, setCount] = useState(undefined)
+
+	const name = useSelector((state) => state.user.user.name)
+
+	const handleChangeInput = (e) => {
+		const { name, value } = e.target
+		setCount({ ...count, [name]: value })
+	}
+
 	const isLogin = !!localStorage.getItem('token')
 
 	let info = useSelector((state) => state.product.infoCategory[0])
-	console.log(info)
+
+	const handleBuyHotmail = async (count) => {
+		// const res = await axios.get(
+		// 	`/product/buy_hotmail?name=${name}&number=${count}`,
+		// 	{
+		// 		headers: {
+		// 			'auth-token': `${localStorage.getItem('token')}`,
+		// 		},
+		// 	}
+		// )
+		// const res = { status: 200, message: 'Buy Hotmail success' }
+	}
 
 	return (
 		<>
@@ -78,16 +99,14 @@ const Hotmail = () => {
 									type='number'
 									className='form-control'
 									disabled={!isLogin}
-									// name={}
-									// value={}
-									// onChange={}
+									onChange={handleChangeInput}
 								/>
 							</td>
 							<td>
 								{isLogin ? (
 									<button
 										className='btn btn-primary btn-nw'
-										onClick={() => {}}
+										onClick={() => handleBuyHotmail(count)}
 									>
 										<ShoppingCartOutlined
 											style={{
