@@ -1,7 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { ShoppingCartOutlined } from '@ant-design/icons'
+import formatMoney from '../../utils/formatMoney'
 
 const Hotmail = () => {
+	const isLogin = !!localStorage.getItem('token')
+
+	let info = useSelector((state) => state.product.infoCategory[0])
+	console.log(info)
+
 	return (
 		<>
 			<div className='table-responsive'>
@@ -28,7 +35,7 @@ const Hotmail = () => {
 							<th
 								scope='col'
 								className='align-middle'
-								style={{ width: 100 }}
+								style={{ width: 130 }}
 							>
 								Action
 							</th>
@@ -37,7 +44,9 @@ const Hotmail = () => {
 					<tbody>
 						<tr>
 							<td>
-								<span>1</span>
+								<span>
+									{info === undefined ? '' : info.id_category}
+								</span>
 							</td>
 
 							<td>
@@ -50,38 +59,49 @@ const Hotmail = () => {
 										fontWeight: 400,
 									}}
 								>
-									Hotmail - Lorem ipsum dolor sit amet.
+									{info === undefined ? '' : info.name}
 								</h4>
 							</td>
 
-							<td>Flag</td>
-							<td className='text-danger'>2250</td>
-							<td style={{ color: 'blue' }}>18.000 VND</td>
+							<td>{info === undefined ? '' : info.country}</td>
+							<td className='text-danger'>
+								{info === undefined ? '' : info.count}
+							</td>
+							<td style={{ color: 'blue' }}>
+								{info === undefined
+									? ''
+									: formatMoney(info.price)}{' '}
+								VND
+							</td>
 							<td>
 								<input
 									type='number'
 									className='form-control'
+									disabled={!isLogin}
 									// name={}
 									// value={}
 									// onChange={}
 								/>
 							</td>
 							<td>
-								<button
-									className='btn btn-primary btn-nw'
-									onClick={() => {}}
-								>
-									<ShoppingCartOutlined
-										style={{
-											fontSize: '16px',
-											verticalAlign: '0.125em',
-										}}
-									/>{' '}
-									Mua
-								</button>
-								{/* <span className='text-danger font-bold'>
-									Đăng nhập để mua
-								</span> */}
+								{isLogin ? (
+									<button
+										className='btn btn-primary btn-nw'
+										onClick={() => {}}
+									>
+										<ShoppingCartOutlined
+											style={{
+												fontSize: '16px',
+												verticalAlign: '0.125em',
+											}}
+										/>{' '}
+										Mua
+									</button>
+								) : (
+									<span className='text-danger font-bold'>
+										Đăng nhập để mua
+									</span>
+								)}
 							</td>
 						</tr>
 					</tbody>

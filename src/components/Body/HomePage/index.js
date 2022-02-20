@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import axios from 'axios'
+import { getInfoCategory } from '../../../redux/actions/productActions'
 
 import Facebook from './Facebook'
 import Hotmail from './Hotmail'
@@ -13,6 +16,26 @@ import LoginOrRegister from './LoginOrRegister'
 
 const HomePage = () => {
 	const isLogin = !!localStorage.getItem('token')
+
+	const dispatch = useDispatch()
+
+	const fetchInfoCategory = useCallback(async () => {
+		try {
+			const res = await axios.get('/category/get_info', {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+
+			dispatch(getInfoCategory(res.data.data))
+		} catch (error) {
+			console.log(error)
+		}
+	}, [dispatch])
+
+	useEffect(() => {
+		fetchInfoCategory()
+	}, [fetchInfoCategory])
 
 	return (
 		<>
