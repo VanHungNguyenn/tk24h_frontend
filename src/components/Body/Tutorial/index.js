@@ -24,7 +24,7 @@ function GetAPI(props) {
 				</div>
 				<div className='api_tutorial'>
 					<h5>Hướng dẫn sử dụng: </h5>
-					<h6 style={{ marginBottom: 10 }}>Mua sản phẩm: </h6>
+					<h6 style={{ marginBottom: 10 }}>Mua Hotmail: </h6>
 					<div className='input-group mb-3'>
 						<span className='input-group-text'>GET: </span>
 						<input
@@ -33,7 +33,55 @@ function GetAPI(props) {
 							placeholder='Secret key'
 							aria-label='SecretKey'
 							disabled
-							defaultValue='http://tk24h.com/api/auto/buy_product?key=<KEY>&id=<ID>&sl=<NUMBER>'
+							defaultValue='http://tk24h.com/api/auto/buy_hotmail?key=<KEY>&sl=<NUMBER>'
+						/>
+					</div>
+					<h6 style={{ marginBottom: 10 }}>Mua Gmail: </h6>
+					<div className='input-group mb-3'>
+						<span className='input-group-text'>GET: </span>
+						<input
+							type='text'
+							className='form-control'
+							placeholder='Secret key'
+							aria-label='SecretKey'
+							disabled
+							defaultValue='http://tk24h.com/api/auto/buy_gmail?key=<KEY>&sl=<NUMBER>'
+						/>
+					</div>
+					<h6 style={{ marginBottom: 10 }}>Mua Facebook: </h6>
+					<div className='input-group mb-3'>
+						<span className='input-group-text'>GET: </span>
+						<input
+							type='text'
+							className='form-control'
+							placeholder='Secret key'
+							aria-label='SecretKey'
+							disabled
+							defaultValue='http://tk24h.com/api/auto/buy_facebook?key=<KEY>&sl=<NUMBER>'
+						/>
+					</div>
+					<h6 style={{ marginBottom: 10 }}>Mua Tiktok: </h6>
+					<div className='input-group mb-3'>
+						<span className='input-group-text'>GET: </span>
+						<input
+							type='text'
+							className='form-control'
+							placeholder='Secret key'
+							aria-label='SecretKey'
+							disabled
+							defaultValue='http://tk24h.com/api/auto/buy_tiktok?key=<KEY>&sl=<NUMBER>'
+						/>
+					</div>
+					<h6 style={{ marginBottom: 10 }}>Mua Outlook: </h6>
+					<div className='input-group mb-3'>
+						<span className='input-group-text'>GET: </span>
+						<input
+							type='text'
+							className='form-control'
+							placeholder='Secret key'
+							aria-label='SecretKey'
+							disabled
+							defaultValue='http://tk24h.com/api/auto/buy_outlook?key=<KEY>&sl=<NUMBER>'
 						/>
 					</div>
 					<h6 style={{ marginBottom: 10 }}>

@@ -1,7 +1,64 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { ShoppingCartOutlined } from '@ant-design/icons'
+import formatMoney from '../../utils/formatMoney'
+import axios from 'axios'
+import { showErrorMsg, showSuccessMsg } from '../../utils/Notification'
+import { getUser } from '../../../redux/actions/userActions'
+import { getInfoCategory } from './../../../redux/actions/productActions'
 
 const Tiktok = () => {
+	const [count, setCount] = useState(0)
+	const dispatch = useDispatch()
+	const name = useSelector((state) => state.user.user.name)
+
+	const handleChangeInput = (e) => {
+		const value = e.target.value
+		setCount({
+			...count,
+			[e.target.name]: value,
+		})
+	}
+
+	const isLogin = !!localStorage.getItem('token')
+
+	let info = useSelector((state) => state.product.infoCategory[2])
+
+	const handleBuyTiktok = async (count) => {
+		try {
+			const res = await axios.get(
+				`/product/buy_tiktok?name=${name}&number=${count['']}`,
+				{
+					headers: {
+						'auth-token': `${localStorage.getItem('token')}`,
+					},
+				}
+			)
+
+			if (res.status === 200) {
+				showSuccessMsg(res.data.message)
+			}
+
+			const ress = await axios.get('/user/info', {
+				headers: {
+					'auth-token': `${localStorage.getItem('token')}`,
+				},
+			})
+
+			dispatch(getUser(ress.data))
+
+			const resss = await axios.get('/category/get_info', {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+
+			dispatch(getInfoCategory(resss.data.data))
+		} catch (error) {
+			showErrorMsg(error.response.data.message)
+		}
+	}
+
 	return (
 		<>
 			<div className='table-responsive'>
@@ -28,7 +85,7 @@ const Tiktok = () => {
 							<th
 								scope='col'
 								className='align-middle'
-								style={{ width: 100 }}
+								style={{ width: 130 }}
 							>
 								Action
 							</th>
@@ -37,7 +94,9 @@ const Tiktok = () => {
 					<tbody>
 						<tr>
 							<td>
-								<span>3</span>
+								<span>
+									{info === undefined ? '' : info.id_category}
+								</span>
 							</td>
 
 							<td>
@@ -50,38 +109,54 @@ const Tiktok = () => {
 										fontWeight: 400,
 									}}
 								>
-									Tiktok - Lorem ipsum dolor sit amet.
+									{info === undefined ? '' : info.name}
 								</h4>
 							</td>
 
-							<td>Flag</td>
-							<td className='text-danger'>2000</td>
-							<td style={{ color: 'blue' }}>25.000 VND</td>
+							<td>
+								<span
+									className={`flag-icon flag-icon-${
+										info === undefined ? '' : info.country
+									}`}
+								></span>
+								{/* {info === undefined ? '' : info.country} */}
+							</td>
+							<td className='text-danger'>
+								{info === undefined ? '' : info.count}
+							</td>
+							<td style={{ color: 'blue' }}>
+								{info === undefined
+									? ''
+									: formatMoney(info.price)}{' '}
+								VND
+							</td>
 							<td>
 								<input
 									type='number'
 									className='form-control'
-									// name={}
-									// value={}
-									// onChange={}
+									disabled={!isLogin}
+									onChange={handleChangeInput}
 								/>
 							</td>
 							<td>
-								<button
-									className='btn btn-primary btn-nw'
-									onClick={() => {}}
-								>
-									<ShoppingCartOutlined
-										style={{
-											fontSize: '16px',
-											verticalAlign: '0.125em',
-										}}
-									/>{' '}
-									Mua
-								</button>
-								{/* <span className='text-danger font-bold'>
-									Đăng nhập để mua
-								</span> */}
+								{isLogin ? (
+									<button
+										className='btn btn-primary btn-nw'
+										onClick={() => handleBuyTiktok(count)}
+									>
+										<ShoppingCartOutlined
+											style={{
+												fontSize: '16px',
+												verticalAlign: '0.125em',
+											}}
+										/>{' '}
+										Mua
+									</button>
+								) : (
+									<span className='text-danger font-bold'>
+										Đăng nhập để mua
+									</span>
+								)}
 							</td>
 						</tr>
 					</tbody>

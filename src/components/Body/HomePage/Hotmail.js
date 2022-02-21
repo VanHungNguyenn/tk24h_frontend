@@ -1,17 +1,24 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { ShoppingCartOutlined } from '@ant-design/icons'
 import formatMoney from '../../utils/formatMoney'
 import axios from 'axios'
+import { getUser } from '../../../redux/actions/userActions'
+import { getInfoCategory } from './../../../redux/actions/productActions'
+import { showSuccessModal, showErrorModal } from '../../utils/Modal'
 
 const Hotmail = () => {
-	const [count, setCount] = useState(undefined)
+	const [count, setCount] = useState(0)
 
+	const dispatch = useDispatch()
 	const name = useSelector((state) => state.user.user.name)
 
 	const handleChangeInput = (e) => {
-		const { name, value } = e.target
-		setCount({ ...count, [name]: value })
+		const value = e.target.value
+		setCount({
+			...count,
+			[e.target.name]: value,
+		})
 	}
 
 	const isLogin = !!localStorage.getItem('token')
@@ -19,15 +26,42 @@ const Hotmail = () => {
 	let info = useSelector((state) => state.product.infoCategory[0])
 
 	const handleBuyHotmail = async (count) => {
-		// const res = await axios.get(
-		// 	`/product/buy_hotmail?name=${name}&number=${count}`,
-		// 	{
-		// 		headers: {
-		// 			'auth-token': `${localStorage.getItem('token')}`,
-		// 		},
-		// 	}
-		// )
-		// const res = { status: 200, message: 'Buy Hotmail success' }
+		try {
+			const res = await axios.get(
+				`/product/buy_hotmail?name=${name}&number=${count['']}`,
+				{
+					headers: {
+						'auth-token': `${localStorage.getItem('token')}`,
+					},
+				}
+			)
+
+			if (res.status === 200) {
+				showSuccessModal(
+					res.data.data.map((item, i) => {
+						return <p key={i}>{item}</p>
+					})
+				)
+			}
+
+			const ress = await axios.get('/user/info', {
+				headers: {
+					'auth-token': `${localStorage.getItem('token')}`,
+				},
+			})
+
+			dispatch(getUser(ress.data))
+
+			const resss = await axios.get('/category/get_info', {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+
+			dispatch(getInfoCategory(resss.data.data))
+		} catch (error) {
+			showErrorModal(error.response.data.message)
+		}
 	}
 
 	return (
@@ -84,7 +118,14 @@ const Hotmail = () => {
 								</h4>
 							</td>
 
-							<td>{info === undefined ? '' : info.country}</td>
+							<td>
+								<span
+									className={`flag-icon flag-icon-${
+										info === undefined ? '' : info.country
+									}`}
+								></span>
+								{/* {info === undefined ? '' : info.country} */}
+							</td>
 							<td className='text-danger'>
 								{info === undefined ? '' : info.count}
 							</td>

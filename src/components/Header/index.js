@@ -74,8 +74,7 @@ const Header = () => {
 				{isLogin && (
 					<div>
 						<div className='dropdown d-inline-block'>
-							<Link
-								to=''
+							<div
 								className='btn btn-dual'
 								id='page-header-user-dropdown'
 								aria-haspopup='true'
@@ -89,7 +88,7 @@ const Header = () => {
 									alt=''
 								/>
 								<i className='fa fa-fw fa-angle-down ml-1'></i>
-							</Link>
+							</div>
 							<div
 								className={
 									isOpenMenuProfile

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { getHistoryOrderUser } from '../../../redux/actions/historyActions'
 import formatMoney from '../../utils/formatMoney'
+import { showSuccessModal } from '../../utils/Modal'
+import download from '../../utils/downloadData'
 
 const columns = [
 	{
@@ -35,19 +37,50 @@ const columns = [
 		title: 'Xem chi tiết',
 		dataIndex: 'data',
 		key: 'data',
-		render: () => (
-			<>
-				<Button type='primary'>Xem</Button>
-			</>
-		),
+		render: (data) => {
+			var content = ''
+
+			data.forEach((item, i) => {
+				content += item + '\n'
+			})
+
+			return (
+				<>
+					<Button
+						type='primary'
+						onClick={() =>
+							showSuccessModal(content, 'Xem chi tiết')
+						}
+					>
+						Xem
+					</Button>
+				</>
+			)
+		},
 	},
 	{
 		title: 'Hành động',
-		render: () => (
-			<>
-				<Button type='primary'>Tải xuống</Button>
-			</>
-		),
+		dataIndex: 'data',
+		render: (data) => {
+			var content = ''
+
+			data.forEach((item, i) => {
+				content += item + '\n'
+			})
+
+			var file = String(Date.now()) + '.txt'
+
+			return (
+				<>
+					<Button
+						type='primary'
+						onClick={() => download(content, file, 'text/plain')}
+					>
+						Tải xuống
+					</Button>
+				</>
+			)
+		},
 	},
 ]
 

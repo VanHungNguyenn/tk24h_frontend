@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 // import { showErrorMsg, showSuccessMsg } from '../../utils/Notification'
-import axios from 'axios'
+// import axios from 'axios'
 
 const initialState = {
 	oldPass: '',
@@ -12,7 +12,7 @@ const initialState = {
 const InfoUser = () => {
 	const name = useSelector((state) => state.user.user.name)
 	const phone = useSelector((state) => state.user.user.phone)
-	const id = useSelector((state) => state.user.user._id)
+	// const id = useSelector((state) => state.user.user._id)
 
 	const [form, setForm] = useState(initialState)
 
@@ -21,24 +21,24 @@ const InfoUser = () => {
 		setForm({ ...form, [name]: value })
 	}
 
-	const handleChangePassword = async ({ oldPass, newPass, rePass }) => {
-		try {
-			const res = await axios.post(
-				'/user/update',
-				{ oldPass, newPass, rePass, id },
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						'auth-token': localStorage.getItem('token'),
-					},
-				}
-			)
+	// const handleChangePassword = async ({ oldPass, newPass, rePass }) => {
+	// 	try {
+	// 		const res = await axios.post(
+	// 			'/user/update',
+	// 			{ oldPass, newPass, rePass, id },
+	// 			{
+	// 				headers: {
+	// 					'Content-Type': 'application/json',
+	// 					'auth-token': localStorage.getItem('token'),
+	// 				},
+	// 			}
+	// 		)
 
-			console.log({ res })
-		} catch (error) {
-			console.log(error.message)
-		}
-	}
+	// 		console.log({ res })
+	// 	} catch (error) {
+	// 		console.log(error.message)
+	// 	}
+	// }
 
 	return (
 		<div className='block block-rounded block-bordered'>
@@ -122,7 +122,7 @@ const InfoUser = () => {
 					<div className='col-md-12'>
 						<div className='form-group float-right w-100'>
 							<button
-								onClick={() => handleChangePassword(form)}
+								// onClick={() => handleChangePassword(form)}
 								type='button'
 								className='btn btn-primary btn-rounded btn-block'
 							>
