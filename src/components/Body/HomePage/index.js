@@ -34,7 +34,9 @@ const HomePage = () => {
 	}, [dispatch])
 
 	useEffect(() => {
-		fetchInfoCategory()
+		const timer = setInterval(() => fetchInfoCategory(), 5000)
+
+		return () => clearInterval(timer)
 	}, [fetchInfoCategory])
 
 	return (
@@ -42,8 +44,15 @@ const HomePage = () => {
 			{isLogin ? null : <LoginOrRegister />}
 			{/* Quang cao */}
 			<div className='homepage__title'>
-				<h2 style={{ textAlign: 'center' }}>DANH SÁCH TÀI KHOẢN</h2>
-				<p style={{ textAlign: 'center', fontStyle: 'italic' }}>
+				<h2 style={{ textAlign: 'center', color: '#0665D0' }}>
+					DANH SÁCH TÀI KHOẢN
+				</h2>
+				<p
+					style={{
+						textAlign: 'center',
+						fontSize: '25px',
+					}}
+				>
 					TK24H.COM cung cấp tài khoản quảng cáo Facebook: Tài khoản
 					Cá nhân (VIA, CLONE) - Mail verify (HOTMAIL, GMAIL) -
 					Tiktok...

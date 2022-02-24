@@ -33,7 +33,7 @@ function GetAPI(props) {
 							placeholder='Secret key'
 							aria-label='SecretKey'
 							disabled
-							defaultValue='http://tk24h.com/api/auto/buy_hotmail?key=<KEY>&sl=<NUMBER>'
+							defaultValue='http://tk24h.com/api/auto/buy_hotmail?key=<KEY>&number=<NUMBER>'
 						/>
 					</div>
 					<h6 style={{ marginBottom: 10 }}>Mua Gmail: </h6>
@@ -45,7 +45,7 @@ function GetAPI(props) {
 							placeholder='Secret key'
 							aria-label='SecretKey'
 							disabled
-							defaultValue='http://tk24h.com/api/auto/buy_gmail?key=<KEY>&sl=<NUMBER>'
+							defaultValue='http://tk24h.com/api/auto/buy_gmail?key=<KEY>&number=<NUMBER>'
 						/>
 					</div>
 					<h6 style={{ marginBottom: 10 }}>Mua Facebook: </h6>
@@ -57,7 +57,7 @@ function GetAPI(props) {
 							placeholder='Secret key'
 							aria-label='SecretKey'
 							disabled
-							defaultValue='http://tk24h.com/api/auto/buy_facebook?key=<KEY>&sl=<NUMBER>'
+							defaultValue='http://tk24h.com/api/auto/buy_facebook?key=<KEY>&number=<NUMBER>'
 						/>
 					</div>
 					<h6 style={{ marginBottom: 10 }}>Mua Tiktok: </h6>
@@ -69,7 +69,7 @@ function GetAPI(props) {
 							placeholder='Secret key'
 							aria-label='SecretKey'
 							disabled
-							defaultValue='http://tk24h.com/api/auto/buy_tiktok?key=<KEY>&sl=<NUMBER>'
+							defaultValue='http://tk24h.com/api/auto/buy_tiktok?key=<KEY>&number=<NUMBER>'
 						/>
 					</div>
 					<h6 style={{ marginBottom: 10 }}>Mua Outlook: </h6>
@@ -81,7 +81,7 @@ function GetAPI(props) {
 							placeholder='Secret key'
 							aria-label='SecretKey'
 							disabled
-							defaultValue='http://tk24h.com/api/auto/buy_outlook?key=<KEY>&sl=<NUMBER>'
+							defaultValue='http://tk24h.com/api/auto/buy_outlook?key=<KEY>&number=<NUMBER>'
 						/>
 					</div>
 					<h6 style={{ marginBottom: 10 }}>

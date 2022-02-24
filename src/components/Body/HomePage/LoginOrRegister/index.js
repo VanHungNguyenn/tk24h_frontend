@@ -17,6 +17,7 @@ const LoginOrRegister = () => {
 					fontSize: '30px',
 					textAlign: 'center',
 					margin: '2rem 0',
+					color: '#0665D0',
 				}}
 			>
 				HỆ THỐNG TK24H.COM MUA BÁN TÀI KHOẢN QUẢNG CÁO (VIA, CLONE, BM,

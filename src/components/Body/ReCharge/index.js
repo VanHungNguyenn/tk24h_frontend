@@ -2,8 +2,11 @@ import React from 'react'
 import techcombankLogo from '../../../assets/images/techcombank-logo.png'
 import momoLogo from '../../../assets/images/momo.png'
 import './ReCharge.css'
+import { useSelector } from 'react-redux'
 
 const ReCharge = () => {
+	const name = useSelector((state) => state.user.user.name)
+
 	return (
 		<div className='block block-rounded block-bordered'>
 			<div className='row '>
@@ -23,7 +26,7 @@ const ReCharge = () => {
 					</div>
 					<div className='title'>
 						Content:
-						<div className='info ml-2'>tk24h nguyenvanhung</div>
+						<div className='info ml-2'>tk24h {name}</div>
 					</div>
 				</div>
 				<div className='col-lg-6 recharge__container'>
@@ -42,7 +45,7 @@ const ReCharge = () => {
 					</div>
 					<div className='title'>
 						Content:
-						<div className='info ml-2'>tk24h nguyenvanhung</div>
+						<div className='info ml-2'>tk24h {name}</div>
 					</div>
 				</div>
 				<div className='col-lg-12'>

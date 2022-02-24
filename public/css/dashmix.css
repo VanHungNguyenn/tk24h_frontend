@@ -1916,17 +1916,18 @@ pre code {
   color: #495057;
   background-color: #e6ebf4;
   border-color: #e6ebf4;
+  background-color: #343a40;
 }
 
 .table-dark {
   color: #fff;
-  background-color: #343a40;
 }
 
 .table-dark th,
 .table-dark td,
 .table-dark thead th {
   border-color: #343a40;
+  background-color: #4b7bec;
 }
 
 .table-dark.table-bordered {
@@ -13208,7 +13209,8 @@ a.badge-secondary:focus, a.badge-secondary.focus {
 
 #page-container.page-header-dark #page-header {
   color: #cad4e7;
-  background-color: #0665d0;
+  /* background-color: #0665d0; */
+  background-color: #45aaf2;
 }
 
 #page-container.page-header-glass #page-header {

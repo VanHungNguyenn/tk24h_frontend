@@ -68,7 +68,7 @@ const Register = ({ changeFormLogin }) => {
 					layout='vertical'
 				>
 					<Form.Item
-						label='Name'
+						label='Tên tài khoản'
 						name='name'
 						htmlFor='name'
 						className='mb-4'
@@ -88,7 +88,7 @@ const Register = ({ changeFormLogin }) => {
 						/>
 					</Form.Item>
 					<Form.Item
-						label='Password'
+						label='Mật khẩu'
 						name='password'
 						htmlFor='password'
 						className='mb-4'
@@ -107,7 +107,7 @@ const Register = ({ changeFormLogin }) => {
 						/>
 					</Form.Item>
 					<Form.Item
-						label='Repeat password'
+						label='Nhập lại mật khẩu'
 						name='repeatPassword'
 						htmlFor='repeatPassword'
 						className='mb-4'
@@ -126,7 +126,7 @@ const Register = ({ changeFormLogin }) => {
 						/>
 					</Form.Item>
 					<Form.Item
-						label='Phone'
+						label='Số điện thoại'
 						name='phone'
 						htmlFor='phone'
 						className='mb-4'
@@ -146,15 +146,19 @@ const Register = ({ changeFormLogin }) => {
 					</Form.Item>
 
 					<Form.Item className='mb-2'>
-						<Button type='primary' htmlType='submit'>
-							Register
+						<Button
+							type='primary'
+							htmlType='submit'
+							className='w-100'
+						>
+							Đăng kí
 						</Button>
 					</Form.Item>
 
 					<Form.Item className='mb-1'>
-						You already have account?{'  '}
+						Bạn đã có tài khoản?{'  '}
 						<Link to='/' className='link' onClick={changeFormLogin}>
-							Login!
+							Đăng nhập ngay!
 						</Link>
 					</Form.Item>
 				</Form>

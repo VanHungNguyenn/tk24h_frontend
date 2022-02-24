@@ -26,7 +26,9 @@ const ListHistoryOrder = () => {
 	}, [dispatch])
 
 	useEffect(() => {
-		fetchHistoryOrder()
+		const timer = setInterval(() => fetchHistoryOrder(), 5000)
+
+		return () => clearInterval(timer)
 	}, [fetchHistoryOrder])
 
 	return (

@@ -29,7 +29,9 @@ const ListHistoryRecharge = () => {
 	}, [dispatch])
 
 	useEffect(() => {
-		fetchHistoryRecharge()
+		const timer = setInterval(() => fetchHistoryRecharge(), 5000)
+
+		return () => clearInterval(timer)
 	}, [fetchHistoryRecharge])
 
 	return (

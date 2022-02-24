@@ -68,7 +68,7 @@ const Login = ({ changeFormLogin }) => {
 					layout='vertical'
 				>
 					<Form.Item
-						label='Name'
+						label='Tên tài khoản'
 						name='name'
 						htmlFor='name'
 						className='mb-4'
@@ -89,7 +89,7 @@ const Login = ({ changeFormLogin }) => {
 					</Form.Item>
 
 					<Form.Item
-						label='Password'
+						label='Mật khẩu'
 						name='password'
 						htmlFor='password'
 						className='mb-4'
@@ -109,15 +109,19 @@ const Login = ({ changeFormLogin }) => {
 					</Form.Item>
 
 					<Form.Item className='mb-2'>
-						<Button type='primary' htmlType='submit'>
-							Submit
+						<Button
+							type='primary'
+							htmlType='submit'
+							className='w-100'
+						>
+							Đăng nhập
 						</Button>
 					</Form.Item>
 
 					<Form.Item className='mb-1'>
-						New Customer?{'  '}
+						Bạn là khách hàng mới?{'  '}
 						<Link to='/' className='link' onClick={changeFormLogin}>
-							Register now!
+							Đăng kí ngay!
 						</Link>
 					</Form.Item>
 				</Form>

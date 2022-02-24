@@ -37,11 +37,23 @@ const Hotmail = () => {
 			)
 
 			if (res.status === 200) {
-				showSuccessModal(
-					res.data.data.map((item, i) => {
-						return <p key={i}>{item}</p>
-					})
-				)
+				if (res.data.data.length > 50) {
+					showSuccessModal(
+						'Bạn đã mua thành công, vui lòng vào phần "Lịch sử mua" để xem chi tiết',
+						'Mua thành công'
+					)
+				} else {
+					showSuccessModal(
+						res.data.data.map((item, i) => {
+							return (
+								<p key={i} style={{ margin: '0' }}>
+									{item}
+								</p>
+							)
+						}),
+						'Mua thành công'
+					)
+				}
 			}
 
 			const ress = await axios.get('/user/info', {

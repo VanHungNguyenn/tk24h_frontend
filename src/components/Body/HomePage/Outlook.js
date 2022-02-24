@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ShoppingCartOutlined } from '@ant-design/icons'
 import formatMoney from '../../utils/formatMoney'
 import axios from 'axios'
-import { showErrorMsg, showSuccessMsg } from '../../utils/Notification'
+import { showSuccessModal, showErrorModal } from '../../utils/Modal'
+
 import { getUser } from '../../../redux/actions/userActions'
 import { getInfoCategory } from './../../../redux/actions/productActions'
 
@@ -32,7 +33,23 @@ const Outlook = () => {
 			)
 
 			if (res.status === 200) {
-				showSuccessMsg(res.data.message)
+				if (res.data.data.length > 50) {
+					showSuccessModal(
+						'Bạn đã mua thành công, vui lòng vào phần "Lịch sử mua" để xem chi tiết',
+						'Mua thành công'
+					)
+				} else {
+					showSuccessModal(
+						res.data.data.map((item, i) => {
+							return (
+								<p key={i} style={{ margin: '0' }}>
+									{item}
+								</p>
+							)
+						}),
+						'Mua thành công'
+					)
+				}
 			}
 
 			const ress = await axios.get('/user/info', {
@@ -51,7 +68,7 @@ const Outlook = () => {
 
 			dispatch(getInfoCategory(resss.data.data))
 		} catch (error) {
-			showErrorMsg(error.response.data.message)
+			showErrorModal(error.response.data.message)
 		}
 	}
 

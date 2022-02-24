@@ -8,6 +8,10 @@
     font-family: 'Roboto', sans-serif;
 }
 
+html {
+    font-size: 120%;
+}
+
 a {
     text-decoration: none;
 }
@@ -20,4 +24,10 @@ button {
     border: none;
     outline: none;
     cursor: pointer;
+}
+
+.table .thead-dark th {
+    color: #fff;
+    background-color: #1d4c7a;
+    border-color: #255687;
 }

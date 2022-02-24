@@ -11,6 +11,22 @@ import InfoUser from './InfoUser'
 import { useDispatch, useSelector } from 'react-redux'
 import { getToken } from '../../redux/actions/userActions'
 import formatMoney from '../utils/formatMoney'
+import MessengerCustomerChat from 'react-messenger-customer-chat'
+
+const tabAdmin = (isAdmin) => (
+	<>
+		<li className='nav-item'>
+			<NavLink
+				to='/'
+				activeClassName='active'
+				className='nav-link text-body-color py-4'
+			>
+				<i className='nav-main-link-icon si si-home text-gray pr-1'></i>
+				<span className='d-none d-md-inline ml-1'>Hehe</span>
+			</NavLink>
+		</li>
+	</>
+)
 
 const tabUser = (isLogin, balance) => (
 	<>
@@ -150,6 +166,10 @@ const Body = () => {
 						<Route path='/info_user' component={InfoUser} />
 						<Route component={NotFound} />
 					</Switch>
+					<MessengerCustomerChat
+						pageId='103014442260353'
+						appId='323695346239067'
+					/>
 				</div>
 			</main>
 		</>
