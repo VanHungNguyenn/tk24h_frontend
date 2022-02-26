@@ -16,7 +16,6 @@ import LoginOrRegister from './LoginOrRegister'
 
 const HomePage = () => {
 	const isLogin = !!localStorage.getItem('token')
-
 	const dispatch = useDispatch()
 
 	const fetchInfoCategory = useCallback(async () => {
@@ -34,6 +33,8 @@ const HomePage = () => {
 	}, [dispatch])
 
 	useEffect(() => {
+		fetchInfoCategory()
+
 		const timer = setInterval(() => fetchInfoCategory(), 5000)
 
 		return () => clearInterval(timer)

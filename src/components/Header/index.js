@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import img_user from '../../assets/avatar12.jpg'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import { getUser } from '../../redux/actions/userActions'
+import { getUser, switchAdmin } from '../../redux/actions/userActions'
 import { Logout } from '../../redux/actions/historyActions'
 
 const Header = () => {
@@ -12,6 +12,7 @@ const Header = () => {
 
 	const user = useSelector((state) => state.user.user)
 	const isAdmin = useSelector((state) => state.user.isAdmin)
+	const adminActive = useSelector((state) => state.user.adminActive)
 
 	const isLogin = localStorage.getItem('token')
 
@@ -21,6 +22,12 @@ const Header = () => {
 
 	const handleClickMenuProfile = () => {
 		setIsOpenMenuProfile(!isOpenMenuProfile)
+	}
+
+	const handleSwitchAdmin = () => {
+		if (isAdmin) {
+			dispatch(switchAdmin())
+		}
 	}
 
 	const dropdownMenuBlur = (e) => {
@@ -120,14 +127,27 @@ const Header = () => {
 								</div>
 								{isAdmin && (
 									<div className='p-2'>
-										<span className='' onClick={() => {}}>
-											<Link
-												className='dropdown-item mb-0'
-												to='/'
-											>
-												<i className='fa fa-fw fa-cog text-gray mr-2'></i>
-												Chuyển đến trang Admin
-											</Link>
+										<span
+											className=''
+											onClick={handleSwitchAdmin}
+										>
+											{adminActive ? (
+												<Link
+													className='dropdown-item mb-0'
+													to='/'
+												>
+													<i className='fa fa-fw fa-cog text-gray mr-2'></i>
+													Chuyển đến trang User
+												</Link>
+											) : (
+												<Link
+													className='dropdown-item mb-0'
+													to='/admin_user'
+												>
+													<i className='fa fa-fw fa-cog text-gray mr-2'></i>
+													Chuyển đến trang Admin
+												</Link>
+											)}
 										</span>
 									</div>
 								)}

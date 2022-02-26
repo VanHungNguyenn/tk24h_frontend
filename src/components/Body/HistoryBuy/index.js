@@ -6,7 +6,6 @@ import { getHistoryOrderUser } from '../../../redux/actions/historyActions'
 import formatMoney from '../../utils/formatMoney'
 import { showSuccessModal } from '../../utils/Modal'
 import download from '../../utils/downloadData'
-import Loading from '../../utils/Loading'
 
 const columns = [
 	{
@@ -124,11 +123,12 @@ const HistoryBuy = () => {
 
 	return (
 		<>
-			{historyOrderUser === [] ? (
-				<Loading />
-			) : (
-				<Table columns={columns} dataSource={data} bordered={true} />
-			)}
+			<Table
+				columns={columns}
+				dataSource={data}
+				bordered={true}
+				loading={historyOrderUser.length === 0}
+			/>
 		</>
 	)
 }

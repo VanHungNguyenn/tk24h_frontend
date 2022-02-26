@@ -1,4 +1,4 @@
-import { LOGIN, GET_USER, GET_TOKEN } from './types'
+import { LOGIN, GET_USER, GET_TOKEN, SWITCH_ADMIN } from './types'
 
 export const login = (data) => {
 	return {
@@ -18,5 +18,11 @@ export const getToken = (data) => {
 	return {
 		type: GET_TOKEN,
 		payload: data,
+	}
+}
+
+export const switchAdmin = () => {
+	return {
+		type: SWITCH_ADMIN,
 	}
 }
