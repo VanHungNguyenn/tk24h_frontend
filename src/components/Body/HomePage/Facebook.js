@@ -23,12 +23,64 @@ const Facebook = () => {
 
 	const isLogin = !!localStorage.getItem('token')
 
-	let info = useSelector((state) => state.product.infoCategory[3])
+	let facebook = useSelector((state) => state.product.infoCategory[3])
+	let facebookClone = useSelector((state) => state.product.infoCategory[5])
 
 	const handleBuyFacebook = async (count) => {
 		try {
 			const res = await axios.get(
 				`/product/buy_facebook?name=${name}&number=${count['']}`,
+				{
+					headers: {
+						'auth-token': `${localStorage.getItem('token')}`,
+					},
+				}
+			)
+
+			if (res.status === 200) {
+				if (res.data.data.length > 50) {
+					showSuccessModal(
+						'Bạn đã mua thành công, vui lòng vào phần "Lịch sử mua" để xem chi tiết',
+						'Mua thành công'
+					)
+				} else {
+					showSuccessModal(
+						res.data.data.map((item, i) => {
+							return (
+								<p key={i} style={{ margin: '0' }}>
+									{item}
+								</p>
+							)
+						}),
+						'Mua thành công'
+					)
+				}
+			}
+
+			const ress = await axios.get('/user/info', {
+				headers: {
+					'auth-token': `${localStorage.getItem('token')}`,
+				},
+			})
+
+			dispatch(getUser(ress.data))
+
+			const resss = await axios.get('/category/get_info', {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+
+			dispatch(getInfoCategory(resss.data.data))
+		} catch (error) {
+			showErrorModal(error.response.data.message)
+		}
+	}
+
+	const handleBuyFacebookClone = async (count) => {
+		try {
+			const res = await axios.get(
+				`/product/buy_facebook_clone?name=${name}&number=${count['']}`,
 				{
 					headers: {
 						'auth-token': `${localStorage.getItem('token')}`,
@@ -112,7 +164,9 @@ const Facebook = () => {
 						<tr>
 							<td>
 								<span>
-									{info === undefined ? '' : info.id_category}
+									{facebook === undefined
+										? ''
+										: facebook.id_category}
 								</span>
 							</td>
 
@@ -126,25 +180,28 @@ const Facebook = () => {
 										fontWeight: 400,
 									}}
 								>
-									{info === undefined ? '' : info.name}
+									{facebook === undefined
+										? ''
+										: facebook.name}
 								</h4>
 							</td>
 
 							<td>
 								<span
 									className={`flag-icon flag-icon-${
-										info === undefined ? '' : info.country
+										facebook === undefined
+											? ''
+											: facebook.country
 									}`}
 								></span>
-								{/* {info === undefined ? '' : info.country} */}
 							</td>
 							<td className='text-danger'>
-								{info === undefined ? '' : info.count}
+								{facebook === undefined ? '' : facebook.count}
 							</td>
 							<td style={{ color: 'blue' }}>
-								{info === undefined
+								{facebook === undefined
 									? ''
-									: formatMoney(info.price)}{' '}
+									: formatMoney(facebook.price)}{' '}
 								VND
 							</td>
 							<td>
@@ -160,6 +217,82 @@ const Facebook = () => {
 									<button
 										className='btn btn-primary btn-nw'
 										onClick={() => handleBuyFacebook(count)}
+									>
+										<ShoppingCartOutlined
+											style={{
+												fontSize: '16px',
+												verticalAlign: '0.125em',
+											}}
+										/>{' '}
+										Mua
+									</button>
+								) : (
+									<span className='text-danger font-bold'>
+										Đăng nhập để mua
+									</span>
+								)}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span>
+									{facebookClone === undefined
+										? ''
+										: facebookClone.id_category}
+								</span>
+							</td>
+
+							<td>
+								<h4
+									style={{
+										fontSize: '16px',
+										display: 'flex',
+										alignItems: 'center',
+										marginBottom: 0,
+										fontWeight: 400,
+									}}
+								>
+									{facebookClone === undefined
+										? ''
+										: facebookClone.name}
+								</h4>
+							</td>
+
+							<td>
+								<span
+									className={`flag-icon flag-icon-${
+										facebookClone === undefined
+											? ''
+											: facebookClone.country
+									}`}
+								></span>
+							</td>
+							<td className='text-danger'>
+								{facebookClone === undefined
+									? ''
+									: facebookClone.count}
+							</td>
+							<td style={{ color: 'blue' }}>
+								{facebookClone === undefined
+									? ''
+									: formatMoney(facebookClone.price)}{' '}
+								VND
+							</td>
+							<td>
+								<input
+									type='number'
+									className='form-control'
+									disabled={!isLogin}
+									onChange={handleChangeInput}
+								/>
+							</td>
+							<td>
+								{isLogin ? (
+									<button
+										className='btn btn-primary btn-nw'
+										onClick={() =>
+											handleBuyFacebookClone(count)
+										}
 									>
 										<ShoppingCartOutlined
 											style={{

@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback } from 'react'
-import { Table, Button } from 'antd'
+import React, { useEffect, useCallback, useState } from 'react'
+import { Table, Button, Input } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { adminGetAllHistoryOrder } from '../../../redux/actions/adminActions'
@@ -68,6 +68,7 @@ const columns = [
 
 const AdminHistoryBuy = () => {
 	const dispatch = useDispatch()
+	const [q, setQ] = useState('')
 
 	const allHistoryOrder = useSelector((state) => state.admin.allHistoryOrder)
 
@@ -102,11 +103,23 @@ const AdminHistoryBuy = () => {
 		}
 	})
 
+	function search(rows) {
+		return rows.filter((row) => row.name.toLowerCase().indexOf(q) > -1)
+	}
+
 	return (
 		<>
+			{/* Search */}
+			<div style={{ marginBottom: '20px', width: '30%' }}>
+				<Input
+					placeholder='Search'
+					value={q}
+					onChange={(e) => setQ(e.target.value)}
+				/>
+			</div>
 			<Table
 				columns={columns}
-				dataSource={data}
+				dataSource={search(data)}
 				bordered={true}
 				loading={allHistoryOrder.length === 0}
 			/>

@@ -3,6 +3,8 @@ import {
 	ADMIN_GET_ALL_HISTORY_ORDER,
 	ADMIN_GET_ALL_HISTORY_RECHARGE,
 	ADMIN_GET_ALL_CATEGORY,
+	ADMIN_GET_ALL_HISTORY_MOMO,
+	ADMIN_GET_ALL_HISTORY_BANK,
 } from '../actions/types'
 
 const initialState = {
@@ -10,6 +12,8 @@ const initialState = {
 	allHistoryRecharge: [],
 	allUser: [],
 	allCategory: [],
+	allHistoryMomo: [],
+	allHistoryBank: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -33,6 +37,16 @@ const adminReducer = (state = initialState, action) => {
 			return {
 				...state,
 				allCategory: action.payload,
+			}
+		case ADMIN_GET_ALL_HISTORY_MOMO:
+			return {
+				...state,
+				allHistoryMomo: action.payload,
+			}
+		case ADMIN_GET_ALL_HISTORY_BANK:
+			return {
+				...state,
+				allHistoryBank: action.payload,
 			}
 		default:
 			return state

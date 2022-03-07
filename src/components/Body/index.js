@@ -14,7 +14,6 @@ import formatMoney from '../utils/formatMoney'
 import MessengerCustomerChat from 'react-messenger-customer-chat'
 
 import AdminManageUser from './AdminManageUser'
-import AdminManageProduct from './AdminManageProduct'
 import AdminManageCategory from './AdminManageCategory'
 import AdminTutorialAPI from './AdminTutorialAPI'
 import AdminHistoryBuy from './AdminHistoryBuy'
@@ -42,21 +41,11 @@ const tabAdmin = (isLogin) => (
 					>
 						<i className='nav-main-link-icon si si-book-open text-gray pr-1'></i>
 						<span className='d-none d-md-inline ml-1'>
-							Manage category
+							Manage category product
 						</span>
 					</NavLink>
 				</li>
-				<li className='nav-item'>
-					<NavLink
-						to='/admin_product'
-						className='nav-link text-body-color py-4'
-					>
-						<i className='nav-main-link-icon si si-book-open text-gray pr-1'></i>
-						<span className='d-none d-md-inline ml-1'>
-							Manage product
-						</span>
-					</NavLink>
-				</li>
+
 				<li className='nav-item'>
 					<NavLink
 						to='/admin_tutorial'
@@ -282,11 +271,6 @@ const Body = () => {
 						<PrivateRoute
 							path='/admin_user'
 							component={AdminManageUser}
-							authed={adminActive}
-						/>
-						<PrivateRoute
-							path='/admin_product'
-							component={AdminManageProduct}
 							authed={adminActive}
 						/>
 						<PrivateRoute

@@ -31,3 +31,7 @@ button {
     background-color: #1d4c7a;
     border-color: #255687;
 }
+
+.table td h4 {
+    text-align: left;
+}

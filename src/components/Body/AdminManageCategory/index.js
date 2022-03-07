@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Table, Button, Modal, Form, Input } from 'antd'
+import { Table, Button, Modal, Form, Input, Space, Tooltip } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { adminGetAllCategory } from '../../../redux/actions/adminActions'
@@ -15,10 +15,16 @@ const initialState = {
 }
 
 const AdminManageCategory = () => {
-	const [isModalVisible, setIsModalVisible] = useState(false)
+	const [isModalUpdateVisible, setIsModalUpdateVisible] = useState(false)
+	const [isModalAddVisible, setIsModalAddVisible] = useState(false)
 	const [infoForm, setInfoForm] = useState(initialState)
+	const [addProductForm, setAddProductForm] = useState({
+		type: '',
+		data: '',
+		name: '',
+	})
 
-	console.log(infoForm)
+	console.log(addProductForm)
 
 	const handleChangeInput = (e) => {
 		const { name, value } = e.target
@@ -46,19 +52,29 @@ const AdminManageCategory = () => {
 		fetchAllCategory()
 	}, [fetchAllCategory])
 
-	const handleUpdateCategory = (record) => {
+	const openModalUpdate = (record) => {
 		setInfoForm({
 			name_category: record.name,
 			price: record.price,
 			id_category: record.id,
 		})
 
-		setIsModalVisible(true)
+		setIsModalUpdateVisible(true)
+	}
+
+	const openModalAddProduct = (record) => {
+		setAddProductForm({
+			...addProductForm,
+			type: record.type,
+			name: record.name,
+		})
+
+		setIsModalAddVisible(true)
 	}
 
 	const handleOk = async () => {
 		try {
-			setIsModalVisible(false)
+			setIsModalUpdateVisible(false)
 
 			const res = await axios.post(
 				'/category/update',
@@ -84,8 +100,55 @@ const AdminManageCategory = () => {
 		}
 	}
 
+	const handleAddProduct = async () => {
+		try {
+			setIsModalAddVisible(false)
+
+			const res = await axios.post(
+				'/category/add_product',
+				{
+					type: addProductForm.type,
+					data: addProductForm.data,
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						'auth-token': localStorage.getItem('token'),
+					},
+				}
+			)
+
+			if (res.data.status === 200) {
+				showSuccessModal(res.data.message)
+				fetchAllCategory()
+			}
+
+			setAddProductForm({
+				type: '',
+				data: '',
+				name: '',
+			})
+		} catch (error) {
+			showErrorModal(error.response.data.message)
+		}
+	}
 	const handleCancel = () => {
-		setIsModalVisible(false)
+		setIsModalUpdateVisible(false)
+	}
+
+	const handleHideModalAdd = () => {
+		setIsModalAddVisible(false)
+
+		setAddProductForm({
+			type: '',
+			data: '',
+			name: '',
+		})
+	}
+
+	const handleChangeAddProduct = (e) => {
+		const { name, value } = e.target
+		setAddProductForm({ ...addProductForm, [name]: value })
 	}
 
 	const data = allCategory.map((item, i) => {
@@ -135,12 +198,28 @@ const AdminManageCategory = () => {
 					render={(data, record) => {
 						return (
 							<>
-								<Button
-									type='primary'
-									onClick={() => handleUpdateCategory(record)}
-								>
-									Update
-								</Button>
+								<Space>
+									<Tooltip title='Update name and price'>
+										<Button
+											type='primary'
+											onClick={() =>
+												openModalUpdate(record)
+											}
+										>
+											<i className='fas fa-edit'></i>
+										</Button>
+									</Tooltip>
+									<Tooltip title='Add product'>
+										<Button
+											type='primary'
+											onClick={() =>
+												openModalAddProduct(record)
+											}
+										>
+											<i className='fas fa-folder-plus'></i>
+										</Button>
+									</Tooltip>
+								</Space>
 							</>
 						)
 					}}
@@ -148,10 +227,10 @@ const AdminManageCategory = () => {
 			</Table>
 			<Modal
 				title='Update category information'
-				visible={isModalVisible}
+				visible={isModalUpdateVisible}
 				onOk={handleOk}
 				onCancel={handleCancel}
-				width={1000}
+				width={600}
 				okText='Update'
 			>
 				<Form name='basic' layout='vertical' onFinish={handleOk}>
@@ -169,6 +248,34 @@ const AdminManageCategory = () => {
 							onChange={handleChangeInput}
 							value={infoForm.price}
 							name='price'
+						/>
+					</Form.Item>
+				</Form>
+			</Modal>
+			<Modal
+				title='Add product'
+				visible={isModalAddVisible}
+				onOk={handleAddProduct}
+				onCancel={handleHideModalAdd}
+				width={600}
+				okText='Add'
+			>
+				<div className='modal-change_title'>
+					<span>Category: </span>
+					{addProductForm.name}
+				</div>
+				<div className='modal-change_title'>
+					<span>Type: </span>
+					{addProductForm.type}
+				</div>
+				<Form name='basic' layout='vertical'>
+					<Form.Item label='Data:'>
+						<Input.TextArea
+							type='text'
+							onChange={handleChangeAddProduct}
+							value={addProductForm.data}
+							name='data'
+							rows={8}
 						/>
 					</Form.Item>
 				</Form>
