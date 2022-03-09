@@ -18,6 +18,7 @@ import AdminManageCategory from './AdminManageCategory'
 import AdminTutorialAPI from './AdminTutorialAPI'
 import AdminHistoryBuy from './AdminHistoryBuy'
 import AdminHistoryDeposit from './AdminHistoryDeposit'
+import AdminChart from './AdminChart'
 
 const tabAdmin = (isLogin) => (
 	<>
@@ -74,6 +75,17 @@ const tabAdmin = (isLogin) => (
 						<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
 						<span className='d-none d-md-inline ml-1'>
 							History Deposit
+						</span>
+					</NavLink>
+				</li>
+				<li className='nav-item'>
+					<NavLink
+						to='/admin_statistics'
+						className='nav-link text-body-color py-4'
+					>
+						<i className='nav-main-link-icon si si-wallet text-gray pr-1'></i>
+						<span className='d-none d-md-inline ml-1'>
+							Statistics
 						</span>
 					</NavLink>
 				</li>
@@ -291,6 +303,11 @@ const Body = () => {
 						<PrivateRoute
 							path='/admin_historydeposit'
 							component={AdminHistoryDeposit}
+							authed={adminActive}
+						/>
+						<PrivateRoute
+							path='/admin_statistics'
+							component={AdminChart}
 							authed={adminActive}
 						/>
 						<Route component={NotFound} />

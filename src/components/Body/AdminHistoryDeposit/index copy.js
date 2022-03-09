@@ -99,8 +99,6 @@ const AdminHistoryDeposit = () => {
 	const [qMomo, setQMomo] = useState('')
 	const [qBank, setQBank] = useState('')
 	const [dateRecharge, setDateRecharge] = useState([])
-	const [total, setTotal] = useState(0)
-	const [data, setData] = useState([])
 
 	const allHistoryRecharge = useSelector(
 		(state) => state.admin.allHistoryRecharge
@@ -123,18 +121,6 @@ const AdminHistoryDeposit = () => {
 			)
 
 			dispatch(adminGetAllHistoryRecharge(res.data.result))
-
-			setData(
-				res.data.result.map((item, index) => {
-					return {
-						id: index + 1,
-						name: item.name_user,
-						content: item.content,
-						amount: item.amount,
-						date: item.date,
-					}
-				})
-			)
 		} catch (error) {
 			console.log(error)
 		}
@@ -176,6 +162,20 @@ const AdminHistoryDeposit = () => {
 		fetchAllHistoryBank()
 	}, [fetchAllHistoryRecharge, fetchAllHistoryMomo, fetchAllHistoryBank])
 
+	let totalAmount = 0
+
+	const data = allHistoryRecharge.map((item, index) => {
+		totalAmount += item.amount
+
+		return {
+			id: index + 1,
+			name: item.name_user,
+			content: item.content,
+			amount: item.amount,
+			date: item.date,
+		}
+	})
+
 	const dataMomo = allHistoryMomo.map((item, index) => {
 		return {
 			id: index + 1,
@@ -198,41 +198,24 @@ const AdminHistoryDeposit = () => {
 		}
 	})
 
-	useEffect(() => {
-		let filterData = []
-
+	function searchQ(rows) {
+		// if exist dateRecharge, filter by dateRecharge and name
 		if (dateRecharge.length > 0) {
-			filterData = allHistoryRecharge.filter((item) => {
+			return rows.filter((row) => {
 				return (
-					item.name_user.toLowerCase().includes(q.toLowerCase()) &&
-					new Date(item.date) >= new Date(dateRecharge[0]) &&
-					new Date(item.date) <= new Date(dateRecharge[1])
+					row.name.toLowerCase().indexOf(q) > -1 &&
+					new Date(row.date) >= new Date(dateRecharge[0]) &&
+					new Date(row.date) <= new Date(dateRecharge[1])
 				)
 			})
 		} else {
-			filterData = allHistoryRecharge.filter((item) => {
-				return item.name_user.toLowerCase().includes(q.toLowerCase())
+			return rows.filter((row) => {
+				return row.name.toLowerCase().indexOf(q) > -1
 			})
 		}
 
-		setData(
-			filterData.map((item, index) => {
-				return {
-					id: index + 1,
-					name: item.name_user,
-					content: item.content,
-					amount: item.amount,
-					date: item.date,
-				}
-			})
-		)
-
-		setTotal(
-			filterData.reduce((total, item) => {
-				return total + item.amount
-			}, 0)
-		)
-	}, [q, allHistoryRecharge, dateRecharge])
+		// return rows.filter((row) => row.name.toLowerCase().indexOf(q) > -1)
+	}
 
 	function searchQMomo(rows) {
 		return rows.filter(
@@ -265,7 +248,7 @@ const AdminHistoryDeposit = () => {
 					<Card style={{ width: 300, marginBottom: 20 }}>
 						<Statistic
 							title='Total Recharge'
-							value={formatMoney(total) + ' VND'}
+							value={formatMoney(totalAmount) + ' VND'}
 						/>
 					</Card>
 					{/* Search */}
@@ -282,7 +265,7 @@ const AdminHistoryDeposit = () => {
 
 					<Table
 						columns={columns}
-						dataSource={data}
+						dataSource={searchQ(data)}
 						bordered={true}
 						loading={allHistoryRecharge.length === 0}
 					/>
