@@ -8,6 +8,7 @@ import Hotmail from './Hotmail'
 import Outlook from './Outlook'
 import Gmail from './Gmail'
 import Tiktok from './Tiktok'
+import Twitter from './Twitter'
 
 import ListHistoryOrder from './ListHistoryOrder'
 import ListHistoryRecharge from './ListHistoryRecharge'
@@ -120,6 +121,22 @@ const HomePage = () => {
 					</div>
 					<div className='block-content'>
 						<Facebook />
+					</div>
+				</div>
+			</div>
+
+			{/* Danh sach twitter */}
+			<div className='block block-rounded block-bordered'>
+				<div className='custom_content' style={{ paddingTop: '0px' }}>
+					<div className='block-header block-header-default border-bottom'>
+						<h3 className='block-title'>
+							<span className='text-muted font-bold'>
+								TÀI KHOẢN TWITTER
+							</span>
+						</h3>
+					</div>
+					<div className='block-content'>
+						<Twitter />
 					</div>
 				</div>
 			</div>

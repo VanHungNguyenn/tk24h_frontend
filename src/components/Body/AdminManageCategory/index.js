@@ -24,8 +24,6 @@ const AdminManageCategory = () => {
 		name: '',
 	})
 
-	console.log(addProductForm)
-
 	const handleChangeInput = (e) => {
 		const { name, value } = e.target
 		setInfoForm({ ...infoForm, [name]: value })

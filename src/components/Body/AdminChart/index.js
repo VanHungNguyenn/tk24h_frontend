@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import { adminGetAllHistoryRecharge } from '../../../redux/actions/adminActions'
 
@@ -26,16 +26,37 @@ const options = {
 			display: true,
 			text: 'Recharge tracking board',
 		},
+		scales: {
+			x: {
+				type: 'time',
+				time: {
+					unit: 'day',
+				},
+			},
+			y: {
+				beginAtZero: true,
+			},
+		},
 	},
 }
 
 const AdminChart = () => {
 	const [dataRow, setDataRow] = useState([])
-
-	const dispatch = useDispatch()
-	const allHistoryRecharge = useSelector(
-		(state) => state.admin.allHistoryRecharge
+	// const [dateRecharge, setDateRecharge] = useState([])
+	const [labels, setLabels] = useState(
+		[...new Array(30).keys()]
+			.map((item) => {
+				const date = new Date()
+				date.setDate(date.getDate() - item)
+				return date.toLocaleDateString()
+			})
+			.reverse()
 	)
+	const dispatch = useDispatch()
+
+	// const allHistoryRecharge = useSelector(
+	// 	(state) => state.admin.allHistoryRecharge
+	// )
 
 	const fetchAllHistoryRecharge = useCallback(async () => {
 		try {
@@ -50,6 +71,24 @@ const AdminChart = () => {
 			)
 
 			dispatch(adminGetAllHistoryRecharge(res.data.result))
+
+			setDataRow(
+				res.data.result.reduce((acc, cur) => {
+					const date = new Date(cur.date)
+					const day = date.getDate()
+					const month = date.getMonth() + 1
+					const year = date.getFullYear()
+					const key = `${day}/${month}/${year}`
+					if (!acc[key]) {
+						acc[key] = {
+							x: key,
+							y: 0,
+						}
+					}
+					acc[key].y += cur.amount
+					return acc
+				}, {})
+			)
 		} catch (error) {
 			console.log(error)
 		}
@@ -59,37 +98,47 @@ const AdminChart = () => {
 		fetchAllHistoryRecharge()
 	}, [fetchAllHistoryRecharge])
 
-	const newData = allHistoryRecharge.reduce((acc, cur) => {
-		const date = new Date(cur.date)
-		const day = date.getDate()
-		const month = date.getMonth() + 1
-		const year = date.getFullYear()
-		const key = `${day}/${month}/${year}`
-		if (!acc[key]) {
-			acc[key] = {
-				date: key,
-				total: 0,
-			}
-		}
-		acc[key].total += cur.amount
-		return acc
-	}, {})
-
-	const labels = Object.keys(newData).reverse()
-
 	const data = {
+		// lables 30 days recently from now
 		labels,
 		datasets: [
 			{
 				label: 'VND',
-				data: Object.keys(newData).map((key) => newData[key].total),
-				borderColor: 'rgb(255, 99, 132)',
-				backgroundColor: 'rgba(255, 99, 132, 0.5)',
+				data: Object.values(dataRow),
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)',
+				],
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.5)',
+					'rgba(54, 162, 235, 0.5)',
+					'rgba(255, 206, 86, 0.5)',
+					'rgba(75, 192, 192, 0.5)',
+					'rgba(153, 102, 255, 0.5)',
+					'rgba(255, 159, 64, 0.5)',
+				],
 			},
 		],
 	}
 
-	return <Bar options={options} data={data} />
+	// function onChangeRecharge(value, dateString) {
+	// 	if (dateString[0] === '') {
+	// 		setDateRecharge([])
+	// 	} else {
+	// 		setDateRecharge(dateString)
+	// 	}
+	// }
+
+	return (
+		<>
+			{/* <RangePicker onChange={onChangeRecharge} /> */}
+			<Bar options={options} data={data} />
+		</>
+	)
 }
 
 export default AdminChart
