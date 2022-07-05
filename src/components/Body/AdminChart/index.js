@@ -72,23 +72,25 @@ const AdminChart = () => {
 
 			dispatch(adminGetAllHistoryRecharge(res.data.result))
 
-			setDataRow(
-				res.data.result.reduce((acc, cur) => {
-					const date = new Date(cur.date)
-					const day = date.getDate()
-					const month = date.getMonth() + 1
-					const year = date.getFullYear()
-					const key = `${day}/${month}/${year}`
-					if (!acc[key]) {
-						acc[key] = {
-							x: key,
-							y: 0,
-						}
+			const newData = res.data.result.reduce((acc, cur) => {
+				const date = new Date(cur.date)
+				const day = date.getDate()
+				const month = date.getMonth() + 1
+				const year = date.getFullYear()
+				const key = `${day}/${month}/${year}`
+				if (!acc[key]) {
+					acc[key] = {
+						x: key,
+						y: 0,
 					}
-					acc[key].y += cur.amount
-					return acc
-				}, {})
-			)
+				}
+				acc[key].y += cur.amount
+				return acc
+			}, {})
+
+			const dataRecent30day = Object.values(newData).slice(0, 30)
+
+			setDataRow(dataRecent30day)
 		} catch (error) {
 			console.log(error)
 		}
@@ -99,8 +101,7 @@ const AdminChart = () => {
 	}, [fetchAllHistoryRecharge])
 
 	const data = {
-		// lables 30 days recently from now
-		labels,
+		// labels,
 		datasets: [
 			{
 				label: 'VND',
@@ -125,17 +126,8 @@ const AdminChart = () => {
 		],
 	}
 
-	// function onChangeRecharge(value, dateString) {
-	// 	if (dateString[0] === '') {
-	// 		setDateRecharge([])
-	// 	} else {
-	// 		setDateRecharge(dateString)
-	// 	}
-	// }
-
 	return (
 		<>
-			{/* <RangePicker onChange={onChangeRecharge} /> */}
 			<Bar options={options} data={data} />
 		</>
 	)
